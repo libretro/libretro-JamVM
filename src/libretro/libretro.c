@@ -98,6 +98,11 @@ void retro_set_environment(retro_environment_t cb)
       log_cb = fallback_log;
 }
 
+void retro_set_audio_sample(retro_audio_sample_t cb)
+{
+   (void)cb;
+}
+
 void retro_set_audio_sample_batch(retro_audio_sample_batch_t cb)
 {
    audio_batch_cb = cb;
@@ -191,38 +196,45 @@ bool retro_load_game_special(unsigned type, const struct retro_game_info *info, 
 
 size_t retro_serialize_size(void)
 {
-   return game_data_size();
+   return 0;
 }
 
 bool retro_serialize(void *data_, size_t size)
 {
    //this core cannot support savestates
+   (void)data_;
+   (void)size;
    return false;
 }
 
 bool retro_unserialize(const void *data_, size_t size)
 {
    //this core cannot support savestates
+   (void)data_;
+   (void)size;
    return false;
 }
 
 void *retro_get_memory_data(unsigned id)
 {
-   if (id != RETRO_MEMORY_SAVE_RAM)
-      return NULL;
-
-   return game_data();
+   (void)id;
+   return NULL;
 }
 
 size_t retro_get_memory_size(unsigned id)
 {
-   if (id != RETRO_MEMORY_SAVE_RAM)
-      return 0;
-
-   return game_data_size();
+   (void)id;
+   return 0;
 }
 
-void retro_set_audio_sample(retro_audio_sample_t cb){}
-void retro_cheat_reset(void){}
-void retro_cheat_set(unsigned index, bool enabled, const char *code){}
+void retro_cheat_reset(void)
+{
+}
+
+void retro_cheat_set(unsigned index, bool enabled, const char *code)
+{
+   (void)index;
+   (void)enabled;
+   (void)code;
+}
 

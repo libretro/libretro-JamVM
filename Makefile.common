@@ -2,7 +2,7 @@
 INCFLAGS := -I$(CORE_DIR)/src/libretro \
 	-I$(CORE_DIR)/src/jamvm \
 	-I$(CORE_DIR)/src/jamvm/arch \
-   -I$(CORE_DIR)/src/jamvm/classlib/openjdk \
+   -I$(CORE_DIR)/src/jamvm/classlib/squirreljme \
 	-I$(CORE_DIR)/src/jamvm/interp \
 	-I$(CORE_DIR)/src/jamvm/interp/engine \
    -I$(CORE_DIR)/src/jamvm/os/libretro
@@ -10,10 +10,9 @@ INCFLAGS := -I$(CORE_DIR)/src/libretro \
 SOURCES_C := $(CORE_DIR)/src/libretro/libretro.c \
 		$(wildcard $(CORE_DIR)/src/jamvm/*.c) \
       $(wildcard $(CORE_DIR)/src/jamvm/arch/*.c) \
-      $(wildcard $(CORE_DIR)/src/jamvm/classlib/openjdk/*.c) \
+      $(wildcard $(CORE_DIR)/src/jamvm/classlib/squirreljme/*.c) \
       $(wildcard $(CORE_DIR)/src/jamvm/interp/*.c) \
       $(wildcard $(CORE_DIR)/src/jamvm/interp/engine/*.c) \
       $(wildcard $(CORE_DIR)/src/jamvm/os/libretro/*.c)
 
 SOURCES_CXX :=
-
