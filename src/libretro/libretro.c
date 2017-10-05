@@ -1,5 +1,6 @@
 #include "libretro.h"
 #include "libretro_params.h"
+#include "rthreads/rthreads.h"
 #include "jam.h"
 
 static retro_log_printf_t log_cb;
@@ -12,7 +13,11 @@ static retro_input_state_t input_state_cb;
 
 long long system_memory_size;
 char system_path[4096];
+sthread_t jamvm_thread;
 uint16_t framebuffer[LR_SCREENWIDTH * LR_SCREENHEIGHT];
+uint8_t keys[LR_KEYSONDEVICE];
+uint8_t keys_last_frame[LR_KEYSONDEVICE];
+
 
 static void fallback_log(enum retro_log_level level, const char *fmt, ...)
 {
@@ -130,6 +135,21 @@ void retro_reset(void)
 
 void retro_run(void)
 {
+   input_poll_cb();
+   
+   keys[0] = input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP);
+   keys[1] = input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN);
+   keys[2] = input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT);
+   keys[3] = input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT);
+   keys[4] = input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A);
+   //0-9 phone keys must be mapped later with a custom overlay
+   
+   
+   for(int key_cnt = 0; key_cnt < LR_KEYSONDEVICE; key_cnt++){
+      if(keys[keys_cnt] != keys_last_frame[keys_cnt]){
+         //send key to java
+      }
+   }
    /*
    key_state_t ks;
 
@@ -143,6 +163,7 @@ void retro_run(void)
    ks.select = input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT);
 
    */
+   memcpy(keys_last_frame, keys, LR_KEYSONDEVICE);
    
    //emulate_frame();
    video_cb(framebuffer, LR_SCREENWIDTH, LR_SCREENHEIGHT, LR_SCREENWIDTH);
@@ -162,16 +183,6 @@ bool retro_load_game(const struct retro_game_info *info)
    };
 
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
-
-   /*
-   if (!game_init_pixelformat())
-      return false;
-
-   frame_cb.callback  = frame_time_cb;
-   frame_cb.reference = 1000000 / 60;
-   frame_cb.callback(frame_cb.reference);
-   environ_cb(RETRO_ENVIRONMENT_SET_FRAME_TIME_CALLBACK, &frame_cb);
-   */
 
    (void)info;
    return true;

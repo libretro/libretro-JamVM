@@ -15,4 +15,6 @@
 #define LR_BLOCKARCEXTRACT false
 #define LR_REQUIRESROM     false
 
+#define LR_KEYSONDEVICE 15 //Up, Down, Left, Right, Select and 0-9 on a phone pad
+
 #endif

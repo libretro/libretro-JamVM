@@ -1,5 +1,6 @@
 
 INCFLAGS := -I$(CORE_DIR)/src/libretro \
+   -I$(CORE_DIR)/src/libretro/libretro-common/include \
 	-I$(CORE_DIR)/src/jamvm \
 	-I$(CORE_DIR)/src/jamvm/arch \
    -I$(CORE_DIR)/src/jamvm/classlib/squirreljme \
@@ -8,6 +9,7 @@ INCFLAGS := -I$(CORE_DIR)/src/libretro \
    -I$(CORE_DIR)/src/jamvm/os/libretro
 
 SOURCES_C := $(CORE_DIR)/src/libretro/libretro.c \
+      $(CORE_DIR)/src/libretro/libretro-common/rthreads/rthreads.c \
 		$(wildcard $(CORE_DIR)/src/jamvm/*.c) \
       $(wildcard $(CORE_DIR)/src/jamvm/arch/*.c) \
       $(wildcard $(CORE_DIR)/src/jamvm/classlib/squirreljme/*.c) \
